@@ -16,9 +16,9 @@
                 <Setter Property="Margin" Value="2" />
             </Style>
             <Style x:Key="CustomPickerStyle" TargetType="Picker">
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="10" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="Margin" Value="20,0" />
+                <Setter Property="Margin" Value="0,0" />
                 <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="HorizontalOptions" Value="Fill" />
                 <Setter Property="TitleColor" Value="#dcdcdc" />
@@ -96,20 +96,20 @@
                     <!-- Parent and Children Input -->
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <!-- Married -->
-                        <Label Text="Married" TextColor="White"
+                        <Label Text="Married" TextColor="White" FontSize="13"
                            Grid.Row="1"
                            Grid.Column="0"
                            VerticalOptions="Center" />
@@ -117,11 +117,11 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             VerticalOptions="Center"
-                            Margin="0,0,45,0"
+                            Margin="0,0,0,0"
                             Toggled="OnMarriedToggled" />
 
                         <!-- Parents -->
-                        <Label Text="Parents" TextColor="White"
+                        <Label Text="Parents" TextColor="White" FontSize="13"
                            Grid.Row="3"
                            Grid.Column="0"
                            VerticalOptions="Center" />
@@ -140,7 +140,7 @@
                         </Picker>
 
                         <!-- Children -->
-                        <Label Text="Children" TextColor="White"
+                        <Label Text="Children under 18" TextColor="White" FontSize="13"
                            Grid.Row="4"
                            Grid.Column="0"
                            VerticalOptions="Center" />
@@ -150,6 +150,30 @@
                            Title="Select children"
                            Style="{StaticResource CustomPickerStyle}">
                         <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:Int32}">
+                                    <x:Int32>0</x:Int32>
+                                    <x:Int32>1</x:Int32>
+                                    <x:Int32>2</x:Int32>
+                                    <x:Int32>3</x:Int32>
+                                    <x:Int32>4</x:Int32>
+                                    <x:Int32>5</x:Int32>
+                                    <x:Int32>6</x:Int32>
+                                    <x:Int32>7</x:Int32>
+                                    <x:Int32>8</x:Int32>
+                                    <x:Int32>9</x:Int32>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Label Text="Children Over 18 in School" TextColor="White" FontSize="13"
+                           Grid.Row="5"
+                           Grid.Column="0"
+                           VerticalOptions="Center" />
+                        <Picker x:Name="ChildrenPicker18"
+                           Grid.Row="5"
+                           Grid.Column="1"
+                           Title="Select children"
+                           Style="{StaticResource CustomPickerStyle}">
+                            <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:Int32}">
                                     <x:Int32>0</x:Int32>
                                     <x:Int32>1</x:Int32>
