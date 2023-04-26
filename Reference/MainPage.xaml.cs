@@ -20,23 +20,72 @@ namespace Reference
         {
             OnSelectionChanged(sender, e);
         }
+
         private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
         {
             OnSelectionChanged(sender, e);
         }
 
-
         private void OnPercentageClicked(object sender, EventArgs e)
         {
-            var button = (Button)sender;
-            var rating = double.Parse(button.Text.TrimEnd('%'));
-
-            disabilityRatings.Add(rating);
+            Button button = sender as Button;
+            int disabilityPercentage = int.Parse(button.Text.TrimEnd('%'));
+            disabilityRatings.Add(disabilityPercentage);
             UpdateEnteredRatingsLabel();
 
+            int numChildrenUnder18 = ChildrenPicker.SelectedItem != null ? (int)ChildrenPicker.SelectedItem : 0;
+            int numChildrenOver18InSchool = ChildrenPicker18.SelectedItem != null ? (int)ChildrenPicker18.SelectedItem : 0;
+
+            // Calculate the combined rating first
             double combinedRating = CalculateCombinedDisabilityRating(disabilityRatings);
-            CombinedRatingLabel.Text = $"The overall combined disability rating is: {combinedRating}%";
-            CompensationLabel.Text = $"{GetAssociatedCompensation(combinedRating)}";
+
+            double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
+
+            EnteredRatingsLabel.Text = $"You have selected: {disabilityPercentage}%";
+            CompensationLabel.Text = $" ${compensationAmount:0.00}";
+
+            OnSelectionChanged(sender, e);
+        }
+
+
+        private double CalculateCompensation(int disabilityPercentage, int numChildrenUnder18, int numChildrenOver18InSchool)
+        {
+            double compensationAmount = 0;
+            int roundedCombinedRating = (int)Math.Round((double)disabilityPercentage);
+            bool isMarried = MarriedSwitch.IsToggled;
+            int parents = ParentsPicker.SelectedIndex;
+            int children = ChildrenPicker.SelectedIndex;
+
+            var rates = VACompensationRateParser.ParseVACompensationRates();
+
+            var closestRate = rates.OrderBy(rate => Math.Abs(rate.DisabilityPercentage - roundedCombinedRating))
+                                    .ThenBy(rate => Math.Abs((rate.Married ? 1 : 0) - (isMarried ? 1 : 0)))
+                                    .ThenBy(rate => Math.Abs(rate.Parents - parents))
+                                    .ThenBy(rate => Math.Abs(rate.Children - children))
+                                    .FirstOrDefault();
+
+            if (closestRate != null && double.TryParse(closestRate.Rate, out double rateValue))
+            {
+                compensationAmount += rateValue;
+            }
+
+            if (disabilityPercentage >= 30)
+            {
+                int childBonusUnder18 = 30;
+                int childBonusOver18InSchool = 97;
+
+                if (numChildrenUnder18 > 1)
+                {
+                    compensationAmount += (numChildrenUnder18 - 1) * childBonusUnder18;
+                }
+
+                if (numChildrenOver18InSchool > 1)
+                {
+                    compensationAmount += (numChildrenOver18InSchool - 1) * childBonusOver18InSchool;
+                }
+            }
+
+            return compensationAmount;
         }
 
         private void OnClearClicked(object sender, EventArgs e)
@@ -51,8 +100,15 @@ namespace Reference
         {
             double combinedRating = CalculateCombinedDisabilityRating(disabilityRatings);
             CombinedRatingLabel.Text = $"The overall combined disability rating is: {combinedRating}%";
-            CompensationLabel.Text = $"{GetAssociatedCompensation(combinedRating)}";
+
+            int numChildrenUnder18 = ChildrenPicker.SelectedItem != null ? (int)ChildrenPicker.SelectedItem : 0;
+            int numChildrenOver18InSchool = ChildrenPicker18.SelectedItem != null ? (int)ChildrenPicker18.SelectedItem : 0;
+
+            double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
+            CompensationLabel.Text = $" ${compensationAmount}";
         }
+
+
 
         private void UpdateEnteredRatingsLabel()
         {
@@ -79,24 +135,6 @@ namespace Reference
             combinedRating = Math.Round(combinedRating / 10) * 10;
 
             return combinedRating;
-        }
-
-        private string GetAssociatedCompensation(double combinedRating)
-        {
-            int roundedCombinedRating = (int)Math.Round(combinedRating);
-            bool isMarried = MarriedSwitch.IsToggled;
-            int parents = ParentsPicker.SelectedIndex;
-            int children = ChildrenPicker.SelectedIndex;
-
-            var rates = VACompensationRateParser.ParseVACompensationRates();
-
-            var closestRate = rates.OrderBy(rate => Math.Abs(rate.DisabilityPercentage - roundedCombinedRating))
-                                    .ThenBy(rate => Math.Abs((rate.Married ? 1 : 0) - (isMarried ? 1 : 0)))
-                                    .ThenBy(rate => Math.Abs(rate.Parents - parents))
-                                    .ThenBy(rate => Math.Abs(rate.Children - children))
-                                    .FirstOrDefault();
-
-            return closestRate?.Rate ?? "N/A";
         }
     }
 }
