@@ -108,8 +108,6 @@ namespace Reference
             CompensationLabel.Text = $" ${compensationAmount}";
         }
 
-
-
         private void UpdateEnteredRatingsLabel()
         {
             EnteredRatingsLabel.Text = "You have selected: " + string.Join(", ", disabilityRatings);
