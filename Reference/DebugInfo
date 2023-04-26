@@ -389,6 +389,7 @@
 [0:] Rate: 70, Married: False, Parents: 0, Children: 0, Compensation: $1,663.06
 [0:] Closest Rate: 30, Married: False, Parents: 0, Children: 0, Compensation: $508.05
 [0:] Rate: 70, Married: False, Parents: 0, Children: 1, Compensation: $1,757.06
+[EGL_emulation] app_time_stats: avg=16.54ms min=10.48ms max=18.09ms count=61
 [0:] Closest Rate: 30, Married: False, Parents: 0, Children: 0, Compensation: $508.05
 [0:] Rate: 70, Married: False, Parents: 1, Children: 0, Compensation: $1,776.06
 [0:] Closest Rate: 30, Married: False, Parents: 0, Children: 0, Compensation: $508.05
@@ -409,7 +410,6 @@
 [0:] Rate: 70, Married: True, Parents: 2, Children: 0, Compensation: $2,030.06
 [0:] Closest Rate: 30, Married: False, Parents: 0, Children: 0, Compensation: $508.05
 [0:] Rate: 70, Married: True, Parents: 2, Children: 1, Compensation: $2,133.06
-[EGL_emulation] app_time_stats: avg=16.55ms min=10.33ms max=17.59ms count=61
 [0:] Closest Rate: 30, Married: False, Parents: 0, Children: 0, Compensation: $508.05
 [0:] Rate: 80, Married: False, Parents: 0, Children: 0, Compensation: $1,933.15
 [0:] Closest Rate: 30, Married: False, Parents: 0, Children: 0, Compensation: $508.05
