@@ -57,17 +57,23 @@ namespace Reference
 
             var rates = VACompensationRateParser.ParseVACompensationRates();
 
-            var closestRate = rates.OrderBy(rate => Math.Abs(rate.DisabilityPercentage - roundedCombinedRating))
-                                    .ThenBy(rate => Math.Abs((rate.Married ? 1 : 0) - (isMarried ? 1 : 0)))
-                                    .ThenBy(rate => Math.Abs(rate.Parents - parents))
-                                    .ThenBy(rate => Math.Abs(rate.Children - children))
-                                    .FirstOrDefault();
+            var closestRate = rates.Where(rate => rate.DisabilityPercentage == roundedCombinedRating &&
+                                      rate.Married == isMarried &&
+                                      rate.Parents == parents &&
+                                      rate.Children == children)
+                        .FirstOrDefault();
+
+            System.Diagnostics.Debug.WriteLine($"Selected Rate: {closestRate.DisabilityPercentage}, Married: {closestRate.Married}, Parents: {closestRate.Parents}, Children: {closestRate.Children}, Compensation: {closestRate.Rate}");
+
             foreach (var rate in rates)
             {
                 System.Diagnostics.Debug.WriteLine($"Rate: {rate.DisabilityPercentage}, Married: {rate.Married}, Parents: {rate.Parents}, Children: {rate.Children}, Compensation: {rate.Rate}");
+                
+
             }
 
-            if (closestRate != null && double.TryParse(closestRate.Rate, out double rateValue))
+            if (closestRate != null && double.TryParse(closestRate.Rate.Replace("$", "").Replace(",", ""), out double rateValue))
+
             {
                 compensationAmount += rateValue;
             }
@@ -88,6 +94,7 @@ namespace Reference
                 }
             }
 
+            System.Diagnostics.Debug.WriteLine($"Closest Rate: {closestRate.DisabilityPercentage}, Married: {closestRate.Married}, Parents: {closestRate.Parents}, Children: {closestRate.Children}, Compensation: {closestRate.Rate}");
             System.Diagnostics.Debug.WriteLine($"Disability Percentage: {disabilityPercentage}");
             System.Diagnostics.Debug.WriteLine($"Number of Children Under 18: {numChildrenUnder18}");
             System.Diagnostics.Debug.WriteLine($"Number of Children Over 18 in School: {numChildrenOver18InSchool}");
