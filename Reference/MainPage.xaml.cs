@@ -47,14 +47,13 @@ namespace Reference
             OnSelectionChanged(sender, e);
         }
 
-
         private double CalculateCompensation(int disabilityPercentage, int numChildrenUnder18, int numChildrenOver18InSchool)
         {
             double compensationAmount = 0;
             int roundedCombinedRating = (int)Math.Round((double)disabilityPercentage);
             bool isMarried = MarriedSwitch.IsToggled;
-            int parents = ParentsPicker.SelectedIndex;
-            int children = ChildrenPicker.SelectedIndex;
+            int parents = ParentsPicker.SelectedIndex != -1 ? ParentsPicker.SelectedIndex : 0;
+            int children = ChildrenPicker.SelectedIndex != -1 ? ChildrenPicker.SelectedIndex : 0;
 
             var rates = VACompensationRateParser.ParseVACompensationRates();
 
@@ -63,6 +62,10 @@ namespace Reference
                                     .ThenBy(rate => Math.Abs(rate.Parents - parents))
                                     .ThenBy(rate => Math.Abs(rate.Children - children))
                                     .FirstOrDefault();
+            foreach (var rate in rates)
+            {
+                System.Diagnostics.Debug.WriteLine($"Rate: {rate.DisabilityPercentage}, Married: {rate.Married}, Parents: {rate.Parents}, Children: {rate.Children}, Compensation: {rate.Rate}");
+            }
 
             if (closestRate != null && double.TryParse(closestRate.Rate, out double rateValue))
             {
@@ -84,6 +87,11 @@ namespace Reference
                     compensationAmount += (numChildrenOver18InSchool - 1) * childBonusOver18InSchool;
                 }
             }
+
+            System.Diagnostics.Debug.WriteLine($"Disability Percentage: {disabilityPercentage}");
+            System.Diagnostics.Debug.WriteLine($"Number of Children Under 18: {numChildrenUnder18}");
+            System.Diagnostics.Debug.WriteLine($"Number of Children Over 18 in School: {numChildrenOver18InSchool}");
+            System.Diagnostics.Debug.WriteLine($"Compensation Amount: {compensationAmount}");
 
             return compensationAmount;
         }
