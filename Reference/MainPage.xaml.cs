@@ -43,7 +43,7 @@ namespace Reference
             double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
 
             EnteredRatingsLabel.Text = $"You have selected: {disabilityPercentage}%";
-            CompensationLabel.Text = $" ${compensationAmount:0.00}";
+            CompensationLabel.Text = $" {compensationAmount:$0.00}";
 
             OnSelectionChanged(sender, e);
         }
@@ -117,7 +117,7 @@ namespace Reference
             int numChildrenOver18InSchool = ChildrenPicker18.SelectedItem != null ? (int)ChildrenPicker18.SelectedItem : 0;
 
             double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
-            CompensationLabel.Text = $" ${compensationAmount}";
+            CompensationLabel.Text = $" {compensationAmount}";
         }
 
         private void UpdateEnteredRatingsLabel()
