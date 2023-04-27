@@ -57,15 +57,23 @@ namespace Reference
             int parents = ParentsPicker.SelectedIndex != -1 ? ParentsPicker.SelectedIndex : 0;
             int totalChildren = numChildrenUnder18 + numChildrenOver18InSchool;
 
-            var rates = VACompensationRate.VACompensationRates;
+            var rates = VACompensationRateParser.GetParsedRates();
 
             if (rates.TryGetValue(roundedCombinedRating, out var rateDictionary))
             {
-                if (rateDictionary.TryGetValue((isMarried ? 1 : 0, parents, totalChildren), out double rateValue))
+                if (rateDictionary.TryGetValue((isMarried ? 1 : 0, parents, totalChildren), out string rateValueStr))
                 {
-                    compensationAmount += rateValue;
+                    if (double.TryParse(rateValueStr, out double rateValue))
+                    {
+                        compensationAmount += rateValue;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Failed to parse rate value: {rateValueStr}");
+                    }
                 }
             }
+
 
             if (disabilityPercentage >= 30)
             {
@@ -87,6 +95,7 @@ namespace Reference
 
             return compensationAmount;
         }
+
 
 
 
