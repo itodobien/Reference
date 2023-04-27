@@ -13,10 +13,19 @@ namespace Reference
 
     public class VACompensationRateParser
     {
-        public static List<VACompensationRate> ParseVACompensationRates()
-        {
-            var compensationRates = new List<VACompensationRate>();
+        private static Dictionary<int, Dictionary<(int, int, int), string>> parsedRates;
 
+        public static Dictionary<int, Dictionary<(int, int, int), string>> GetParsedRates()
+        {
+            if (parsedRates == null)
+            {
+                parsedRates = ParseVACompensationRates();
+            }
+            return parsedRates;
+        }
+
+        private static Dictionary<int, Dictionary<(int, int, int), string>> ParseVACompensationRates()
+        {
             var rates = new Dictionary<int, Dictionary<(int, int, int), double>>
             {
                 {
@@ -198,21 +207,18 @@ namespace Reference
                     { (1, 2, 0), 4148.03 },
                     { (1, 2, 1), 4295.92 },
                 }
-                },
+            },
             };
+
+            var compensationRates = new Dictionary<int, Dictionary<(int, int, int), string>>();
 
             foreach (var disabilityPercentage in rates.Keys)
             {
+                compensationRates[disabilityPercentage] = new Dictionary<(int, int, int), string>();
+
                 foreach (var rateEntry in rates[disabilityPercentage])
                 {
-                    compensationRates.Add(new VACompensationRate
-                    {
-                        DisabilityPercentage = disabilityPercentage,
-                        Married = rateEntry.Key.Item1 == 1,
-                        Parents = rateEntry.Key.Item2,
-                        Children = rateEntry.Key.Item3,
-                        Rate = rateEntry.Value.ToString("C")
-                    });
+                    compensationRates[disabilityPercentage].Add(rateEntry.Key, rateEntry.Value.ToString("C"));
                 }
             }
 
@@ -220,6 +226,3 @@ namespace Reference
         }
     }
 }
-
-
-

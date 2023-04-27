@@ -48,35 +48,23 @@ namespace Reference
             OnSelectionChanged(sender, e);
         }
 
+
         private double CalculateCompensation(int disabilityPercentage, int numChildrenUnder18, int numChildrenOver18InSchool)
         {
             double compensationAmount = 0;
             int roundedCombinedRating = (int)Math.Round((double)disabilityPercentage);
             bool isMarried = MarriedSwitch.IsToggled;
             int parents = ParentsPicker.SelectedIndex != -1 ? ParentsPicker.SelectedIndex : 0;
-            int children = ChildrenPicker.SelectedIndex != -1 ? ChildrenPicker.SelectedIndex : 0;
+            int totalChildren = numChildrenUnder18 + numChildrenOver18InSchool;
 
-            var rates = VACompensationRateParser.ParseVACompensationRates();
+            var rates = VACompensationRate.VACompensationRates;
 
-            var closestRate = rates.Where(rate => rate.DisabilityPercentage == roundedCombinedRating &&
-                                      rate.Married == isMarried &&
-                                      rate.Parents == parents &&
-                                      rate.Children == children)
-                        .FirstOrDefault();
-
-            System.Diagnostics.Debug.WriteLine($"Selected Rate: {closestRate.DisabilityPercentage}, Married: {closestRate.Married}, Parents: {closestRate.Parents}, Children: {closestRate.Children}, Compensation: {closestRate.Rate}");
-
-            foreach (var rate in rates)
+            if (rates.TryGetValue(roundedCombinedRating, out var rateDictionary))
             {
-                System.Diagnostics.Debug.WriteLine($"Rate: {rate.DisabilityPercentage}, Married: {rate.Married}, Parents: {rate.Parents}, Children: {rate.Children}, Compensation: {rate.Rate}");
-                
-
-            }
-
-            if (closestRate != null && double.TryParse(closestRate.Rate.Replace("$", "").Replace(",", ""), out double rateValue))
-
-            {
-                compensationAmount += rateValue;
+                if (rateDictionary.TryGetValue((isMarried ? 1 : 0, parents, totalChildren), out double rateValue))
+                {
+                    compensationAmount += rateValue;
+                }
             }
 
             if (disabilityPercentage >= 30)
@@ -84,18 +72,14 @@ namespace Reference
                 int childBonusUnder18 = 30;
                 int childBonusOver18InSchool = 97;
 
-                if (numChildrenUnder18 > 1)
-                {
-                    compensationAmount += (numChildrenUnder18 - 1) * childBonusUnder18;
-                }
+                // Calculate the bonus amounts for each category of children
+                double under18Bonus = numChildrenUnder18 * childBonusUnder18;
+                double over18InSchoolBonus = numChildrenOver18InSchool * childBonusOver18InSchool;
 
-                if (numChildrenOver18InSchool > 1)
-                {
-                    compensationAmount += (numChildrenOver18InSchool - 1) * childBonusOver18InSchool;
-                }
+                // Add the higher of the two possible bonus amounts
+                compensationAmount += Math.Max(under18Bonus, over18InSchoolBonus);
             }
 
-            System.Diagnostics.Debug.WriteLine($"Closest Rate: {closestRate.DisabilityPercentage}, Married: {closestRate.Married}, Parents: {closestRate.Parents}, Children: {closestRate.Children}, Compensation: {closestRate.Rate}");
             System.Diagnostics.Debug.WriteLine($"Disability Percentage: {disabilityPercentage}");
             System.Diagnostics.Debug.WriteLine($"Number of Children Under 18: {numChildrenUnder18}");
             System.Diagnostics.Debug.WriteLine($"Number of Children Over 18 in School: {numChildrenOver18InSchool}");
@@ -103,6 +87,9 @@ namespace Reference
 
             return compensationAmount;
         }
+
+
+
 
         private void OnClearClicked(object sender, EventArgs e)
         {
