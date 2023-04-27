@@ -221,7 +221,6 @@ namespace Reference
                     compensationRates[disabilityPercentage].Add(rateEntry.Key, rateEntry.Value.ToString("C"));
                 }
             }
-
             return compensationRates;
         }
     }

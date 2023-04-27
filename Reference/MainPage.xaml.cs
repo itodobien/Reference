@@ -43,7 +43,7 @@ namespace Reference
             double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
 
             EnteredRatingsLabel.Text = $"You have selected: {disabilityPercentage}%";
-            CompensationLabel.Text = $" {compensationAmount:$0.00}";
+            CompensationLabel.Text = "$ " + compensationAmount.ToString("F2");
 
             OnSelectionChanged(sender, e);
         }
@@ -55,49 +55,69 @@ namespace Reference
             int roundedCombinedRating = (int)Math.Round((double)disabilityPercentage);
             bool isMarried = MarriedSwitch.IsToggled;
             int parents = ParentsPicker.SelectedIndex != -1 ? ParentsPicker.SelectedIndex : 0;
-            int totalChildren = numChildrenUnder18 + numChildrenOver18InSchool;
 
             var rates = VACompensationRateParser.GetParsedRates();
 
             if (rates.TryGetValue(roundedCombinedRating, out var rateDictionary))
             {
-                if (rateDictionary.TryGetValue((isMarried ? 1 : 0, parents, totalChildren), out string rateValueStr))
+                int childrenToConsider = Math.Min(numChildrenUnder18 + numChildrenOver18InSchool, 1); // consider at most 1 child for the rate dictionary
+
+                if (rateDictionary.TryGetValue((isMarried ? 1 : 0, parents, childrenToConsider), out string rateValueStr))
                 {
-                    if (double.TryParse(rateValueStr, out double rateValue))
+                    if (double.TryParse(rateValueStr.Replace("$", ""), out double rateValue))
                     {
                         compensationAmount += rateValue;
                     }
                     else
                     {
                         System.Diagnostics.Debug.WriteLine($"Failed to parse rate value: {rateValueStr}");
+                        System.Diagnostics.Debug.WriteLine($"No rate found for given parameters. Marital status: {isMarried}, Parents: {parents}, Children: {numChildrenUnder18},{numChildrenOver18InSchool}");
+                        System.Diagnostics.Debug.WriteLine($"No rates found for given disability percentage: {roundedCombinedRating}");
                     }
                 }
             }
 
 
-            if (disabilityPercentage >= 30)
+
+            // Calculate the child bonus separately if there are more than one child
+            double childBonus = 0;
+
+            // Calculate bonus for children under 18
+            if (numChildrenUnder18 > 1)
             {
-                int childBonusUnder18 = 30;
-                int childBonusOver18InSchool = 97;
-
-                // Calculate the bonus amounts for each category of children
-                double under18Bonus = numChildrenUnder18 * childBonusUnder18;
-                double over18InSchoolBonus = numChildrenOver18InSchool * childBonusOver18InSchool;
-
-                // Add the higher of the two possible bonus amounts
-                compensationAmount += Math.Max(under18Bonus, over18InSchoolBonus);
+                childBonus += (numChildrenUnder18 - 1) * 30; // subtract 1 to not count the first child twice
             }
 
-            System.Diagnostics.Debug.WriteLine($"Disability Percentage: {disabilityPercentage}");
-            System.Diagnostics.Debug.WriteLine($"Number of Children Under 18: {numChildrenUnder18}");
-            System.Diagnostics.Debug.WriteLine($"Number of Children Over 18 in School: {numChildrenOver18InSchool}");
-            System.Diagnostics.Debug.WriteLine($"Compensation Amount: {compensationAmount}");
+            // Calculate bonus for children over 18 in school
+            if (numChildrenOver18InSchool > 1)
+            {
+                childBonus += (numChildrenOver18InSchool - 1) * 97; // subtract 1 to not count the first child twice
+            }
+
+            // Add an extra $97 if there is at least one child in each category, but not for the first child
+            if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
+            {
+                childBonus += 97;
+            }
+
+            compensationAmount += childBonus;
 
             return compensationAmount;
+
+
         }
 
+        private void OnChildrenCountChanged(object sender, EventArgs e)
+        {
+            double combinedRating = CalculateCombinedDisabilityRating(disabilityRatings);
+            CombinedRatingLabel.Text = $"The overall combined disability rating is: {combinedRating}%";
 
+            int numChildrenUnder18 = ChildrenPicker.SelectedItem != null ? (int)ChildrenPicker.SelectedItem : 0;
+            int numChildrenOver18InSchool = ChildrenPicker18.SelectedItem != null ? (int)ChildrenPicker18.SelectedItem : 0;
 
+            double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
+            CompensationLabel.Text = $"$ {compensationAmount}";
+        }
 
 
         private void OnClearClicked(object sender, EventArgs e)
@@ -117,7 +137,7 @@ namespace Reference
             int numChildrenOver18InSchool = ChildrenPicker18.SelectedItem != null ? (int)ChildrenPicker18.SelectedItem : 0;
 
             double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
-            CompensationLabel.Text = $" {compensationAmount}";
+            CompensationLabel.Text = $"$ {compensationAmount}";
         }
 
         private void UpdateEnteredRatingsLabel()

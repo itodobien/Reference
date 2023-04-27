@@ -139,40 +139,17 @@
                                 </Picker.ItemsSource>
                         </Picker>
 
+                      
                         <!-- Children -->
                         <Label Text="Children under 18" TextColor="White" FontSize="13"
-                           Grid.Row="4"
-                           Grid.Column="0"
-                           VerticalOptions="Center" />
-                        <Picker x:Name="ChildrenPicker"
-                           Grid.Row="4"
-                           Grid.Column="1"
-                           Title="Select children"
-                           Style="{StaticResource CustomPickerStyle}">
-                        <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:Int32}">
-                                    <x:Int32>0</x:Int32>
-                                    <x:Int32>1</x:Int32>
-                                    <x:Int32>2</x:Int32>
-                                    <x:Int32>3</x:Int32>
-                                    <x:Int32>4</x:Int32>
-                                    <x:Int32>5</x:Int32>
-                                    <x:Int32>6</x:Int32>
-                                    <x:Int32>7</x:Int32>
-                                    <x:Int32>8</x:Int32>
-                                    <x:Int32>9</x:Int32>
-                                </x:Array>
-                            </Picker.ItemsSource>
-                        </Picker>
-                        <Label Text="Children Over 18 in School" TextColor="White" FontSize="13"
-                           Grid.Row="5"
-                           Grid.Column="0"
-                           VerticalOptions="Center" />
-                        <Picker x:Name="ChildrenPicker18"
-                           Grid.Row="5"
-                           Grid.Column="1"
-                           Title="Select children"
-                           Style="{StaticResource CustomPickerStyle}">
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            VerticalOptions="Center" />
+                        <Picker x:Name="ChildrenPicker" SelectedIndexChanged="OnChildrenCountChanged"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Title="Select children"
+                            Style="{StaticResource CustomPickerStyle}">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:Int32}">
                                     <x:Int32>0</x:Int32>
@@ -188,8 +165,34 @@
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>
+                        <Label Text="Children Over 18 in School" TextColor="White" FontSize="13"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            VerticalOptions="Center" />
+                        <Picker x:Name="ChildrenPicker18" SelectedIndexChanged="OnChildrenCountChanged"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Title="Select children"
+                            Style="{StaticResource CustomPickerStyle}">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:Int32}">
+                                    <x:Int32>0</x:Int32>
+                                    <x:Int32>1</x:Int32>
+                                    <x:Int32>2</x:Int32>
+                                    <x:Int32>3</x:Int32>
+                                    <x:Int32>4</x:Int32>
+                                    <x:Int32>5</x:Int32>
+                                    <x:Int32>6</x:Int32>
+                                    <x:Int32>7</x:Int32>
+                                    <x:Int32>8</x:Int32>
+                                    <x:Int32>9</x:Int32>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+
                     </Grid>
-                    <Label x:Name="CompensationLabel" Text="$ " FontSize="Medium" TextColor="Green" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,10,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" />
+                    <Label x:Name="CompensationLabel" FontSize="Medium" TextColor="Green" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,10,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" />
+
                 </Grid>
 
             </StackLayout>
