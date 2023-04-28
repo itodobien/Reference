@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
+using Xamarin.CommunityToolkit.Markup;
+using Xamarin.CommunityToolkit;
 
 namespace Reference
 {
@@ -32,7 +34,6 @@ namespace Reference
             Button button = sender as Button;
             int disabilityPercentage = int.Parse(button.Text.TrimEnd('%'));
             disabilityRatings.Add(disabilityPercentage);
-            UpdateEnteredRatingsLabel();
 
             int numChildrenUnder18 = ChildrenPicker.SelectedItem != null ? (int)ChildrenPicker.SelectedItem : 0;
             int numChildrenOver18InSchool = ChildrenPicker18.SelectedItem != null ? (int)ChildrenPicker18.SelectedItem : 0;
@@ -42,7 +43,16 @@ namespace Reference
 
             double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
 
-            EnteredRatingsLabel.Text = $"You have selected: {disabilityPercentage}%";
+            // Add the selected percentage to the EnteredRatingsLabel
+            if (EnteredRatingsLabel.Text == "You have selected: ")
+            {
+                EnteredRatingsLabel.Text += $"{disabilityPercentage}%";
+            }
+            else
+            {
+                EnteredRatingsLabel.Text += $", {disabilityPercentage}%";
+            }
+
             CompensationLabel.Text = "$ " + compensationAmount.ToString("F2");
 
             OnSelectionChanged(sender, e);
