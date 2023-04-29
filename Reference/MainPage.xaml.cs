@@ -58,17 +58,17 @@ namespace Reference
             OnSelectionChanged(sender, e);
         }
 
-
-        private double CalculateCompensation(int disabilityPercentage, int numChildrenUnder18, int numChildrenOver18InSchool)
+            //Calculation for overall compensation. Pulls from VACompensationRate.cs dictionary then adds appropriate compensation for any additional children.
+        private double CalculateCompensation(int disabilityPercentage, int numChildrenUnder18, int numChildrenOver18InSchool) //VA allows different amounts depending on age.
         {
             double compensationAmount = 0;
             int roundedCombinedRating = (int)Math.Round((double)disabilityPercentage);
             bool isMarried = MarriedSwitch.IsToggled;
             int parents = ParentsPicker.SelectedIndex != -1 ? ParentsPicker.SelectedIndex : 0;
 
-            var rates = VACompensationRateParser.GetParsedRates();
+            var rates = VACompensationRateParser.GetParsedRates(); //Fetches dictionary of rates from VACompensationRate.cs
 
-            if (rates.TryGetValue(roundedCombinedRating, out var rateDictionary))
+            if (rates.TryGetValue(roundedCombinedRating, out var rateDictionary)) //Checks if the dictionary contains the rounded combined rating
             {
                 int childrenToConsider = Math.Min(numChildrenUnder18 + numChildrenOver18InSchool, 1); // consider at most 1 child for the rate dictionary
 
@@ -76,7 +76,7 @@ namespace Reference
                 {
                     if (double.TryParse(rateValueStr.Replace("$", ""), out double rateValue))
                     {
-                        compensationAmount += rateValue;
+                        compensationAmount += rateValue; //
                     }
                     else
                     {
@@ -90,7 +90,7 @@ namespace Reference
             // Calculate the child bonus separately if there are more than one child
             double childBonus = 0;
 
-            // Only calculate child bonus if the disability percentage is 30
+            // Only calculate child bonus if the disability percentage is =>30
             if (roundedCombinedRating == 30)
             {
                 // Calculate bonus for children under 18
@@ -102,7 +102,7 @@ namespace Reference
                 // Calculate bonus for children over 18 in school
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 97; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenOver18InSchool - 1) * 97; 
                 }
 
                 // Add an extra $97 if there is at least one child in each category, but not for the first child
@@ -115,152 +115,131 @@ namespace Reference
             }
             else if (roundedCombinedRating == 40)
             {
-                // Calculate bonus for children under 18
+                
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 40; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenUnder18 - 1) * 40; 
                 }
 
-                // Calculate bonus for children over 18 in school
+                
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 129; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenOver18InSchool - 1) * 129; 
                 }
 
-                // Add an extra $97 if there is at least one child in each category, but not for the first child
+                
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 129;
                 }
-
                 compensationAmount += childBonus;
             }
             else if (roundedCombinedRating == 50)
             {
-                // Calculate bonus for children under 18
+
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 50; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenUnder18 - 1) * 50;
                 }
-
-                // Calculate bonus for children over 18 in school
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 162; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenOver18InSchool - 1) * 162; 
                 }
-
-                // Add an extra $97 if there is at least one child in each category, but not for the first child
+                
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 162;
                 }
-
                 compensationAmount += childBonus;
             }
             else if (roundedCombinedRating == 60)
-            {
-                // Calculate bonus for children under 18
+            {               
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 60; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenUnder18 - 1) * 60; 
                 }
 
-                // Calculate bonus for children over 18 in school
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 194; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenOver18InSchool - 1) * 194; 
                 }
 
-                // Add an extra $97 if there is at least one child in each category, but not for the first child
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 194;
                 }
-
                 compensationAmount += childBonus;
-
             }
             else if (roundedCombinedRating == 70)
-            {
-                // Calculate bonus for children under 18
+            {               
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 70; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenUnder18 - 1) * 70; 
                 }
 
-                // Calculate bonus for children over 18 in school
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 226; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenOver18InSchool - 1) * 226; 
                 }
-
-                // Add an extra $97 if there is at least one child in each category, but not for the first child
+               
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 226;
                 }
-
                 compensationAmount += childBonus;
             }
             else if (roundedCombinedRating == 80)
             {
-                // Calculate bonus for children under 18
+                
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 80; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenUnder18 - 1) * 80; 
                 }
 
-                // Calculate bonus for children over 18 in school
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 259; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenOver18InSchool - 1) * 259; 
                 }
-
-                // Add an extra $97 if there is at least one child in each category, but not for the first child
+                
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 259;
                 }
-
                 compensationAmount += childBonus;
             }
             else if (roundedCombinedRating == 90)
             {
-                // Calculate bonus for children under 18
+                
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 90; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenUnder18 - 1) * 90; 
                 }
 
-                // Calculate bonus for children over 18 in school
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 291; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenOver18InSchool - 1) * 291; 
                 }
-
-                // Add an extra $97 if there is at least one child in each category, but not for the first child
+               
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 291;
                 }
-
                 compensationAmount += childBonus;
             }
             else if (roundedCombinedRating == 100)
             {
-                // Calculate bonus for children under 18
+                
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 100; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenUnder18 - 1) * 100; 
                 }
 
-                // Calculate bonus for children over 18 in school
+               
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 324.12; // subtract 1 to not count the first child twice
+                    childBonus += (numChildrenOver18InSchool - 1) * 324.12; 
                 }
 
-                // Add an extra $97 if there is at least one child in each category, but not for the first child
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 324.12;
