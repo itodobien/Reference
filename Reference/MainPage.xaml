@@ -1,7 +1,7 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="Reference.MainPage">
+             x:Class="VADisabilityCalculator.MainPage">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="PercentageButtonStyle" TargetType="Button">
@@ -130,6 +130,7 @@
                             Grid.Row="3"
                             Grid.Column="1"
                             Title="Select parents"
+                            SelectedIndex="0"    
                             Style="{StaticResource CustomPickerStyle}">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:Int32}">
@@ -150,7 +151,9 @@
                             Grid.Row="4"
                             Grid.Column="1"
                             Title="Select children"
-                            Style="{StaticResource CustomPickerStyle}">
+                            Style="{StaticResource CustomPickerStyle}"
+                            SelectedIndex="0">
+                           
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:Int32}">
                                     <x:Int32>0</x:Int32>
@@ -166,6 +169,8 @@
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>
+                        
+                        <!-- Children Over 18 and in School -->                        
                         <Label Text="Children Over 18 in School" TextColor="White" FontSize="13"
                             Grid.Row="5"
                             Grid.Column="0"

@@ -1,9 +1,9 @@
 ﻿using System;
-using Reference;
+using VADisabilityCalculator;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Reference
+namespace VADisabilityCalculator
 {
     public partial class App : Application
     {

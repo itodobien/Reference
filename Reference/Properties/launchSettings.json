@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "VADisabilityCalculator": {
+      "commandName": "Project",
+      "remoteDebugEnabled": true,
+      "authenticationMode": "None",
+      "remoteDebugMachine": "LA954:74.80.242.154"
+    }
+  }
+}

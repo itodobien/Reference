@@ -5,7 +5,7 @@ using Xamarin.Forms;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.CommunityToolkit;
 
-namespace Reference
+namespace VADisabilityCalculator
 {
     public partial class MainPage : ContentPage
     {
@@ -76,7 +76,7 @@ namespace Reference
                 {
                     if (double.TryParse(rateValueStr.Replace("$", ""), out double rateValue))
                     {
-                        compensationAmount += rateValue; //
+                        compensationAmount += rateValue; 
                     }
                     else
                     {
@@ -262,7 +262,6 @@ namespace Reference
             double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
             CompensationLabel.Text = $"$ {compensationAmount}";
         }
-
 
         private void OnClearClicked(object sender, EventArgs e)
         {

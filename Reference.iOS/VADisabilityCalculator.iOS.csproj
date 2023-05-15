@@ -131,9 +131,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Reference\Reference.csproj">
-      <Project>{D859FDE7-B4C0-4FB1-858A-5DFA71098193}</Project>
-      <Name>Reference</Name>
+    <ProjectReference Include="..\Reference\VADisabilityCalculator.csproj">
+      <Project>{2F72B692-4B9F-4464-ACC2-C961F045100F}</Project>
+      <Name>VADisabilityCalculator</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

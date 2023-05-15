@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reference.Android", "Reference.Android\Reference.Android.csproj", "{4F2D09E1-E8F5-4CCC-B13F-C460F059525F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VADisabilityCalculator.Android", "Reference.Android\VADisabilityCalculator.Android.csproj", "{4F2D09E1-E8F5-4CCC-B13F-C460F059525F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reference.iOS", "Reference.iOS\Reference.iOS.csproj", "{0CE73E25-5A77-4759-9044-2B433DEEADB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VADisabilityCalculator.iOS", "Reference.iOS\VADisabilityCalculator.iOS.csproj", "{0CE73E25-5A77-4759-9044-2B433DEEADB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reference", "Reference\Reference.csproj", "{2F72B692-4B9F-4464-ACC2-C961F045100F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VADisabilityCalculator", "Reference\VADisabilityCalculator.csproj", "{2F72B692-4B9F-4464-ACC2-C961F045100F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

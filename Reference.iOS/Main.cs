@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace Reference.iOS
+namespace VADisabilityCalculator.iOS
 {
     public class Application
     {

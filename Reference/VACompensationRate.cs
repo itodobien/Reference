@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Reference
+namespace VADisabilityCalculator
 {
     public class VACompensationRate
     {
