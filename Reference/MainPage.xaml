@@ -2,136 +2,143 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="VADisabilityCalculator.MainPage">
+
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="PercentageButtonStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="DodgerBlue" />
                 <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="CornerRadius" Value="5" />
-                <Setter Property="Margin" Value="2" />
+                <Setter Property="Margin" Value="10,0,10,0" />
             </Style>
             <Style x:Key="ClearButtonStyle" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="Gray" />
+                <Setter Property="BackgroundColor" Value="Red" />
                 <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="Large" />
                 <Setter Property="CornerRadius" Value="5" />
-                <Setter Property="Margin" Value="2" />
-            </Style>
+                <Setter Property="Margin" Value="10,30,10,20" />
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextTransform" Value="Uppercase" />
+                <Setter Property="BorderColor" Value="WhiteSmoke"/>
+                <Setter Property="BorderWidth" Value="2" />
+
+            /Style>
             <Style x:Key="CustomPickerStyle" TargetType="Picker">
-                <Setter Property="FontSize" Value="10" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="Margin" Value="0,0" />
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="HorizontalOptions" Value="Fill" />
-                <Setter Property="TitleColor" Value="#dcdcdc" />
-                <Setter Property="TextColor" Value="White" />
-                <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="Title" Value="Select an item" />
-                <Setter Property="FontFamily" Value="Calibri" />
-                <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="CharacterSpacing" Value="0.5" />                
+                <Setter Property="Margin" Value="80,0,0,10" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+                <Setter Property="TitleColor" Value="OrangeRed" />                
+                <Setter Property="CharacterSpacing" Value="0" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="IsVisible" Value="True" />
                 <Setter Property="IsEnabled" Value="True" />
-            </Style>
+                <Setter Property="Title" Value="______" />
+                <Setter Property="BackgroundColor" Value="WhiteSmoke" />
 
+            </Style>
+            <Style x:Key="CustomSwitchStyle" TargetType="Switch">
+                <Setter Property="Margin" Value="0,0,15,0" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="ThumbColor" Value="WhiteSmoke" />
+                <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+                <Setter Property="BackgroundColor" Value="Green"
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <Grid BackgroundColor="Black">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <StackLayout Spacing="20" Padding="20" BackgroundColor="Black"> 
-        <Label Text="VA Disability Calculator" FontSize="Large" TextColor="White" HorizontalOptions="Center" />
 
-        <StackLayout Margin="0,0,0,20">
-            <Label Text="Select disability percentage:" TextColor="White"/>  
+    <StackLayout BackgroundColor="Black" Orientation="Vertical" Spacing="0" Grid.Row="0">
 
+        <ScrollView>
+            
             <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+                <StackLayout Spacing="0" Orientation="Vertical" Margin="10,10,10,0" Grid.Row="0" >
+                    <Label Text="VA Disability Calculator" FontSize="Title" TextColor="White" HorizontalOptions="Center" VerticalOptions="End" />
 
-            <Button Text="10%" Clicked="OnPercentageClicked" Grid.Row="0" Grid.Column="0" BackgroundColor="#2196F3" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" />
-            <Button Text="20%" Clicked="OnPercentageClicked" Grid.Row="0" Grid.Column="1" BackgroundColor="#2196F3" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" />
-            <Button Text="30%" Clicked="OnPercentageClicked" Grid.Row="0" Grid.Column="2" BackgroundColor="#2196F3" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" />
-            <Button Text="40%" Clicked="OnPercentageClicked" Grid.Row="0" Grid.Column="3" BackgroundColor="#2196F3" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" />
-            <Button Text="50%" Clicked="OnPercentageClicked" Grid.Row="0" Grid.Column="4" BackgroundColor="#2196F3" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" />
+                    <StackLayout Orientation="Vertical" Padding="0,30,0,0" VerticalOptions="End" HorizontalOptions="Center" >
+                        <Label Text="Select disability percentage:" FontAttributes="Bold" TextColor="White" Margin="10,0,10,30" />
 
-            <Button Text="60%" Clicked="OnPercentageClicked" Grid.Row="1" Grid.Column="0" BackgroundColor="#2196F3" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" />
-            <Button Text="70%" Clicked="OnPercentageClicked" Grid.Row="1" Grid.Column="1" BackgroundColor="#2196F3" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" />
-            <Button Text="80%" Clicked="OnPercentageClicked" Grid.Row="1" Grid.Column="2" BackgroundColor="#2196F3" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" />
-            <Button Text="90%" Clicked="OnPercentageClicked" Grid.Row="1" Grid.Column="3" BackgroundColor="#2196F3" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" />
-            <Button Text="100%" Clicked="OnPercentageClicked" Grid.Row="1" Grid.Column="4" BackgroundColor="#2196F3" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-            <Label x:Name="EnteredRatingsLabel" Text="You have selected: " FontSize="Medium" TextColor="White" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" HorizontalOptions="Center" />
-            <Button Text="Clear" Clicked="OnClearClicked" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" BackgroundColor="#F44336" TextColor="White" BorderColor="White" BorderWidth="1" CornerRadius="5" Margin="0,20,0,0" />
-        </Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-            <Label x:Name="CombinedRatingLabel" FontSize="Medium" TextColor="White"/>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                            <Button Text="10%" Clicked="OnPercentageClicked" Grid.Row="0" Grid.Column="0" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" BorderColor="White" BorderWidth="1" CornerRadius="5" />
+                            <Button Text="20%" Clicked="OnPercentageClicked" Grid.Row="0" Grid.Column="1" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" BorderColor="White" BorderWidth="1" CornerRadius="5" />
+                            <Button Text="30%" Clicked="OnPercentageClicked" Grid.Row="0" Grid.Column="2" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" BorderColor="White" BorderWidth="1" CornerRadius="5" />
+                            <Button Text="40%" Clicked="OnPercentageClicked" Grid.Row="0" Grid.Column="3" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" BorderColor="White" BorderWidth="1" CornerRadius="5" />
+                            <Button Text="50%" Clicked="OnPercentageClicked" Grid.Row="0" Grid.Column="4" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" BorderColor="White" BorderWidth="1" CornerRadius="5" />
 
-                    <!-- Parent and Children Input -->
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                            <Button Text="60%" Clicked="OnPercentageClicked" Grid.Row="1" Grid.Column="0" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" BorderColor="White" BorderWidth="1" CornerRadius="5" />
+                            <Button Text="70%" Clicked="OnPercentageClicked" Grid.Row="1" Grid.Column="1" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" BorderColor="White" BorderWidth="1" CornerRadius="5" />
+                            <Button Text="80%" Clicked="OnPercentageClicked" Grid.Row="1" Grid.Column="2" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" BorderColor="White" BorderWidth="1" CornerRadius="5" />
+                            <Button Text="90%" Clicked="OnPercentageClicked" Grid.Row="1" Grid.Column="3" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" BorderColor="White" BorderWidth="1" CornerRadius="5" />
+                            <Button Text="100%" Clicked="OnPercentageClicked" Grid.Row="1" Grid.Column="4" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" BorderColor="White" BorderWidth="1" CornerRadius="5" />
 
-                        <!-- Married -->
-                        <Label Text="Married" TextColor="White" FontSize="13"
+                        </Grid>
+
+                        <Label x:Name="EnteredRatingsLabel" Text="You have selected: " FontAttributes="Bold" FontSize="Medium" TextColor="White" HorizontalOptions="Center" />
+                        <Button Text="Clear" Clicked="OnClearClicked" Style="{StaticResource ClearButtonStyle}" />
+
+
+                        <Label x:Name="CombinedRatingLabel" FontSize="Body" TextColor="White" />
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+
+                            <!-- Married -->
+                           <Label Text="Married" TextColor="White" FontSize="Medium"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           VerticalOptions="End" />
+                           <Switch x:Name="MarriedSwitch"
+                           Grid.Row="0"
+                           Grid.Column="1"                            
+                           Style="{StaticResource CustomSwitchStyle}"
+                           Toggled="OnMarriedToggled" />
+
+                            <!-- Parents -->
+                           <Label Text="Parents" TextColor="White" FontSize="Medium"
+                           VerticalOptions="End"
                            Grid.Row="1"
-                           Grid.Column="0"
-                           VerticalOptions="Center" />
-                        <Switch x:Name="MarriedSwitch"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            VerticalOptions="Center"
-                            Margin="0,0,0,0"
-                            Toggled="OnMarriedToggled" />
-
-                        <!-- Parents -->
-                        <Label Text="Parents" TextColor="White" FontSize="13"
-                           Grid.Row="3"
-                           Grid.Column="0"
-                           VerticalOptions="Center" />
-                        <Picker x:Name="ParentsPicker" SelectedIndexChanged="OnPickerSelectedIndexChanged"
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            Title="Select parents"
-                            SelectedIndex="0"    
-                            Style="{StaticResource CustomPickerStyle}">
+                           Grid.Column="0"/>
+                           <Picker x:Name="ParentsPicker" SelectedIndexChanged="OnPickerSelectedIndexChanged" 
+                           Grid.Row="1"
+                           Grid.Column="1"                            
+                           SelectedIndex="0"    
+                           Style="{StaticResource CustomPickerStyle}">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:Int32}">
                                         <x:Int32>0</x:Int32>
@@ -139,77 +146,74 @@
                                         <x:Int32>2</x:Int32>
                                     </x:Array>
                                 </Picker.ItemsSource>
-                        </Picker>
+                            </Picker>
 
-                      
-                        <!-- Children -->
-                        <Label Text="Children under 18" TextColor="White" FontSize="13"
-                            Grid.Row="4"
-                            Grid.Column="0"
-                            VerticalOptions="Center" />
-                        <Picker x:Name="ChildrenPicker" SelectedIndexChanged="OnChildrenCountChanged"
-                            Grid.Row="4"
-                            Grid.Column="1"
-                            Title="Select children"
+                            <!-- Children -->
+                            <Label Text="Children under 18" TextColor="White" FontSize="Medium" 
+                            VerticalOptions="End"
+                            Grid.Row="2"
+                            Grid.Column="0"/>
+                            <Picker x:Name="ChildrenPicker" SelectedIndexChanged="OnChildrenCountChanged"
+                            Grid.Row="2"
+                            Grid.Column="1"                            
                             Style="{StaticResource CustomPickerStyle}"
                             SelectedIndex="0">
-                           
-                            <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:Int32}">
-                                    <x:Int32>0</x:Int32>
-                                    <x:Int32>1</x:Int32>
-                                    <x:Int32>2</x:Int32>
-                                    <x:Int32>3</x:Int32>
-                                    <x:Int32>4</x:Int32>
-                                    <x:Int32>5</x:Int32>
-                                    <x:Int32>6</x:Int32>
-                                    <x:Int32>7</x:Int32>
-                                    <x:Int32>8</x:Int32>
-                                    <x:Int32>9</x:Int32>
-                                </x:Array>
-                            </Picker.ItemsSource>
-                        </Picker>
-                        
-                        <!-- Children Over 18 and in School -->                        
-                        <Label Text="Children Over 18 in School" TextColor="White" FontSize="13"
-                            Grid.Row="5"
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:Int32}">
+                                        <x:Int32>0</x:Int32>
+                                        <x:Int32>1</x:Int32>
+                                        <x:Int32>2</x:Int32>
+                                        <x:Int32>3</x:Int32>
+                                        <x:Int32>4</x:Int32>
+                                        <x:Int32>5</x:Int32>
+                                        <x:Int32>6</x:Int32>
+                                        <x:Int32>7</x:Int32>
+                                        <x:Int32>8</x:Int32>
+                                        <x:Int32>9</x:Int32>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+
+                            <!-- Children Over 18 and in School -->
+                            <Label Text="Children Over 18 in School" TextColor="White" FontSize="Medium"
+                            Grid.Row="3"
                             Grid.Column="0"
-                            VerticalOptions="Center" />
-                        <Picker x:Name="ChildrenPicker18" SelectedIndexChanged="OnChildrenCountChanged"
-                            Grid.Row="5"
-                            Grid.Column="1"
-                            Title="Select children"
+                            VerticalOptions="End" />
+                            <Picker x:Name="ChildrenPicker18" SelectedIndexChanged="OnChildrenCountChanged"
+                            Grid.Row="3"
+                            Grid.Column="1"                            
                             Style="{StaticResource CustomPickerStyle}">
-                            <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:Int32}">
-                                    <x:Int32>0</x:Int32>
-                                    <x:Int32>1</x:Int32>
-                                    <x:Int32>2</x:Int32>
-                                    <x:Int32>3</x:Int32>
-                                    <x:Int32>4</x:Int32>
-                                    <x:Int32>5</x:Int32>
-                                    <x:Int32>6</x:Int32>
-                                    <x:Int32>7</x:Int32>
-                                    <x:Int32>8</x:Int32>
-                                    <x:Int32>9</x:Int32>
-                                </x:Array>
-                            </Picker.ItemsSource>
-                        </Picker>
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:Int32}">
+                                        <x:Int32>0</x:Int32>
+                                        <x:Int32>1</x:Int32>
+                                        <x:Int32>2</x:Int32>
+                                        <x:Int32>3</x:Int32>
+                                        <x:Int32>4</x:Int32>
+                                        <x:Int32>5</x:Int32>
+                                        <x:Int32>6</x:Int32>
+                                        <x:Int32>7</x:Int32>
+                                        <x:Int32>8</x:Int32>
+                                        <x:Int32>9</x:Int32>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
 
-                    </Grid>
-                    <Label x:Name="CompensationLabel" FontSize="Medium" TextColor="Green" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,10,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" />
 
-                </Grid>
+                        <Label x:Name="CompensationLabel" FontSize="Large" TextColor="Green" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,20,0,10" />
+                    </StackLayout>
+                </StackLayout>
 
-            </StackLayout>
-        </StackLayout>
-            <Label Grid.Row="1"
-               Text="Please note that the results provided by this app are intended for estimation purposes only and should not be considered as official or definitive. Actual VA combined disability ratings may differ from the calculated results. For accurate and up-to-date information, consult with the Department of Veterans Affairs or a qualified representative."
+                <Label x:Name="Disclaimer" Grid.Row="1"
+               Text="Please note that the results provided by this app are intended for estimation purposes only and should not be considered as official or definitive. Actual VA combined disability ratings may differ from the calculated results. Please consult with the Department of Veterans Affairs or a qualified representative."
                FontSize="Small"
-               HorizontalOptions="Center"
+               HorizontalOptions="Start"
                VerticalOptions="End"
-               TextColor="Gray"
-               Margin="10, 0"
+               TextColor="Gray"                 
                HorizontalTextAlignment="Center" />
-    </Grid>
+
+            </Grid>
+        </ScrollView>
+    </StackLayout>
 </ContentPage>

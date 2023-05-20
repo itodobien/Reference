@@ -4,20 +4,31 @@ using System.Linq;
 using Xamarin.Forms;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.CommunityToolkit;
+using Xamarin.Essentials;
+using Xamarin.CommunityToolkit.Effects;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+
 
 namespace VADisabilityCalculator
 {
+
     public partial class MainPage : ContentPage
     {
+
         private readonly List<double> disabilityRatings = new List<double>();
         public MainPage()
         {
             InitializeComponent();
 
+            
             ParentsPicker.ItemsSource = new List<int> { 0, 1, 2 };
             ChildrenPicker.ItemsSource = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             ChildrenPicker18.ItemsSource = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         }
+
+
+
 
         private void OnMarriedToggled(object sender, ToggledEventArgs e)
         {
@@ -58,7 +69,7 @@ namespace VADisabilityCalculator
             OnSelectionChanged(sender, e);
         }
 
-            //Calculation for overall compensation. Pulls from VACompensationRate.cs dictionary then adds appropriate compensation for any additional children.
+        //Calculation for overall compensation. Pulls from VACompensationRate.cs dictionary then adds appropriate compensation for any additional children.
         private double CalculateCompensation(int disabilityPercentage, int numChildrenUnder18, int numChildrenOver18InSchool) //VA allows different amounts depending on age.
         {
             double compensationAmount = 0;
@@ -66,7 +77,7 @@ namespace VADisabilityCalculator
             bool isMarried = MarriedSwitch.IsToggled;
             int parents = ParentsPicker.SelectedIndex != -1 ? ParentsPicker.SelectedIndex : 0;
 
-            var rates = VACompensationRateParser.GetParsedRates(); //Fetches dictionary of rates from VACompensationRate.cs
+            var rates = VACompensationRateParser.GetParsedRates(); // dictionary of rates from VACompensationRate.cs
 
             if (rates.TryGetValue(roundedCombinedRating, out var rateDictionary)) //Checks if the dictionary contains the rounded combined rating
             {
@@ -76,7 +87,7 @@ namespace VADisabilityCalculator
                 {
                     if (double.TryParse(rateValueStr.Replace("$", ""), out double rateValue))
                     {
-                        compensationAmount += rateValue; 
+                        compensationAmount += rateValue;
                     }
                     else
                     {
@@ -102,7 +113,7 @@ namespace VADisabilityCalculator
                 // Calculate bonus for children over 18 in school
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 97; 
+                    childBonus += (numChildrenOver18InSchool - 1) * 97;
                 }
 
                 // Add an extra $97 if there is at least one child in each category, but not for the first child
@@ -112,22 +123,23 @@ namespace VADisabilityCalculator
                 }
 
                 compensationAmount += childBonus;
+
             }
             else if (roundedCombinedRating == 40)
             {
-                
+
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 40; 
+                    childBonus += (numChildrenUnder18 - 1) * 40;
                 }
 
-                
+
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 129; 
+                    childBonus += (numChildrenOver18InSchool - 1) * 129;
                 }
 
-                
+
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 129;
@@ -143,9 +155,9 @@ namespace VADisabilityCalculator
                 }
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 162; 
+                    childBonus += (numChildrenOver18InSchool - 1) * 162;
                 }
-                
+
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 162;
@@ -153,15 +165,15 @@ namespace VADisabilityCalculator
                 compensationAmount += childBonus;
             }
             else if (roundedCombinedRating == 60)
-            {               
+            {
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 60; 
+                    childBonus += (numChildrenUnder18 - 1) * 60;
                 }
 
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 194; 
+                    childBonus += (numChildrenOver18InSchool - 1) * 194;
                 }
 
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
@@ -171,17 +183,17 @@ namespace VADisabilityCalculator
                 compensationAmount += childBonus;
             }
             else if (roundedCombinedRating == 70)
-            {               
+            {
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 70; 
+                    childBonus += (numChildrenUnder18 - 1) * 70;
                 }
 
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 226; 
+                    childBonus += (numChildrenOver18InSchool - 1) * 226;
                 }
-               
+
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 226;
@@ -190,17 +202,17 @@ namespace VADisabilityCalculator
             }
             else if (roundedCombinedRating == 80)
             {
-                
+
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 80; 
+                    childBonus += (numChildrenUnder18 - 1) * 80;
                 }
 
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 259; 
+                    childBonus += (numChildrenOver18InSchool - 1) * 259;
                 }
-                
+
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 259;
@@ -209,17 +221,17 @@ namespace VADisabilityCalculator
             }
             else if (roundedCombinedRating == 90)
             {
-                
+
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 90; 
+                    childBonus += (numChildrenUnder18 - 1) * 90;
                 }
 
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 291; 
+                    childBonus += (numChildrenOver18InSchool - 1) * 291;
                 }
-               
+
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 291;
@@ -228,16 +240,16 @@ namespace VADisabilityCalculator
             }
             else if (roundedCombinedRating == 100)
             {
-                
+
                 if (numChildrenUnder18 > 1)
                 {
-                    childBonus += (numChildrenUnder18 - 1) * 100; 
+                    childBonus += (numChildrenUnder18 - 1) * 100;
                 }
 
-               
+
                 if (numChildrenOver18InSchool > 1)
                 {
-                    childBonus += (numChildrenOver18InSchool - 1) * 324.12; 
+                    childBonus += (numChildrenOver18InSchool - 1) * 324.12;
                 }
 
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
@@ -269,6 +281,11 @@ namespace VADisabilityCalculator
             UpdateEnteredRatingsLabel();
             CombinedRatingLabel.Text = "";
             CompensationLabel.Text = "";
+            MarriedSwitch.IsToggled = false;
+            ChildrenPicker.SelectedItem = null;
+            ChildrenPicker18.SelectedItem = null;
+            ParentsPicker.SelectedItem = null;
+
         }
 
         private void OnSelectionChanged(object sender, EventArgs e)
@@ -309,5 +326,9 @@ namespace VADisabilityCalculator
 
             return combinedRating;
         }
+
     }
 }
+
+
+

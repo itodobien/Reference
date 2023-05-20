@@ -27,8 +27,9 @@
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <IOSDebuggerPort>6000</IOSDebuggerPort>
-    <MtouchSdkVersion>16.4</MtouchSdkVersion>
+    <IOSDebuggerPort>10000</IOSDebuggerPort>
+    <MtouchSdkVersion>
+    </MtouchSdkVersion>
     <MtouchHttpClientHandler>CFNetworkHandler</MtouchHttpClientHandler>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <CodesignKey>Apple Distribution: Daniel Garcia (2M56PVK25S)</CodesignKey>
