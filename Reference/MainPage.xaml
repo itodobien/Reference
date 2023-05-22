@@ -45,7 +45,7 @@
                 <Setter Property="ThumbColor" Value="WhiteSmoke" />
                 <Setter Property="HorizontalOptions" Value="EndAndExpand" />
                 <Setter Property="BackgroundColor" Value="Green"
-            </Style>
+            
         </ResourceDictionary>
     </ContentPage.Resources>
 
