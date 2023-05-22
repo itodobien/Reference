@@ -37,15 +37,16 @@
                 <Setter Property="IsEnabled" Value="True" />
                 <Setter Property="Title" Value="______" />
                 <Setter Property="BackgroundColor" Value="WhiteSmoke" />
-
             </Style>
+            
             <Style x:Key="CustomSwitchStyle" TargetType="Switch">
                 <Setter Property="Margin" Value="0,0,15,0" />
                 <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="ThumbColor" Value="WhiteSmoke" />
                 <Setter Property="HorizontalOptions" Value="EndAndExpand" />
                 <Setter Property="BackgroundColor" Value="Green" />
-
+            </Style>
+            
         </ResourceDictionary>
     </ContentPage.Resources>
 
