@@ -54,7 +54,7 @@ namespace VADisabilityCalculator
 
             double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
 
-            // Add the selected percentage to the EnteredRatingsLabel
+            // Add user inputs to display
             if (EnteredRatingsLabel.Text == "You have selected: ")
             {
                 EnteredRatingsLabel.Text += $"{disabilityPercentage}%";
