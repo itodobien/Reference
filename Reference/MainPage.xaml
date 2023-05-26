@@ -13,6 +13,7 @@
                 <Setter Property="CornerRadius" Value="5" />
                 <Setter Property="Margin" Value="10,0,10,0" />               
             </Style>
+            
             <Style x:Key="ClearButtonStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="Red" />
                 <Setter Property="TextColor" Value="White" />
@@ -23,28 +24,28 @@
                 <Setter Property="TextTransform" Value="Uppercase" />
                 <Setter Property="BorderColor" Value="WhiteSmoke"/>
                 <Setter Property="BorderWidth" Value="2" />
-
             </Style>
+            
             <Style x:Key="CustomPickerStyle" TargetType="Picker">
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="Margin" Value="80,0,0,10" />
-                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="Margin" Value="60,0,0,10" />
+                <Setter Property="VerticalOptions" Value="End" />
                 <Setter Property="HorizontalOptions" Value="EndAndExpand" />
-                <Setter Property="TitleColor" Value="OrangeRed" />                
+                <Setter Property="TitleColor" Value="WhiteSmoke" />                
                 <Setter Property="CharacterSpacing" Value="0" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="IsVisible" Value="True" />
-                <Setter Property="IsEnabled" Value="True" />
-                <Setter Property="Title" Value="______" />
+                <Setter Property="IsEnabled" Value="True" />                
                 <Setter Property="BackgroundColor" Value="WhiteSmoke" />
+                <Setter Property="Title" Value="_____" />
+                
             </Style>
             
             <Style x:Key="CustomSwitchStyle" TargetType="Switch">
-                <Setter Property="Margin" Value="0,0,15,0" />
+                <Setter Property="Margin" Value="0,20,10,0" />
                 <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="ThumbColor" Value="WhiteSmoke" />
-                <Setter Property="HorizontalOptions" Value="EndAndExpand" />
-                <Setter Property="BackgroundColor" Value="Green" />
+                <Setter Property="HorizontalOptions" Value="EndAndExpand" />                
             </Style>
             
         </ResourceDictionary>

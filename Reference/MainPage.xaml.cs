@@ -7,7 +7,8 @@ using Xamarin.CommunityToolkit;
 using Xamarin.Essentials;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+
+
 
 
 namespace VADisabilityCalculator
@@ -27,7 +28,7 @@ namespace VADisabilityCalculator
             ChildrenPicker18.ItemsSource = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         }
 
-
+        
 
 
         private void OnMarriedToggled(object sender, ToggledEventArgs e)

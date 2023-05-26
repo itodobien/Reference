@@ -75,6 +75,7 @@
     <StartupObject>VADisabilityCalculator.iOS.Application</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CustomLabelRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />

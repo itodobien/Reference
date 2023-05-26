@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="4" android:versionName="UI Clean Up" package="com.itodobien.VADisabilityCalculator" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="5" android:versionName="UI Clean Up" package="com.companyname.VADisabilityCalculator" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="33" />
 	<application android:label="VA Disability Calculator" android:icon="@mipmap/ic_launcher"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
