@@ -21,14 +21,11 @@ namespace VADisabilityCalculator
         public MainPage()
         {
             InitializeComponent();
-
             
             ParentsPicker.ItemsSource = new List<int> { 0, 1, 2 };
             ChildrenPicker.ItemsSource = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             ChildrenPicker18.ItemsSource = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        }
-
-        
+        }        
 
 
         private void OnMarriedToggled(object sender, ToggledEventArgs e)
@@ -43,8 +40,8 @@ namespace VADisabilityCalculator
 
         private void OnPercentageClicked(object sender, EventArgs e)
         {
-            Button button = sender as Button;
-            int disabilityPercentage = int.Parse(button.Text.TrimEnd('%'));
+            Button percentButton = sender as Button;
+            int disabilityPercentage = int.Parse(percentButton.Text.TrimEnd('%'));
             disabilityRatings.Add(disabilityPercentage);
 
             int numChildrenUnder18 = ChildrenPicker.SelectedItem != null ? (int)ChildrenPicker.SelectedItem : 0;
@@ -69,6 +66,33 @@ namespace VADisabilityCalculator
 
             OnSelectionChanged(sender, e);
         }
+        //This shows the running list of selected percentages
+        private void UpdateEnteredRatingsLabel()
+        {
+            EnteredRatingsLabel.Text = "You have selected: " + string.Join(", ", disabilityRatings);
+        }
+        //This calculates the weird VA math and rounds it to the nearest 10%
+        private double CalculateCombinedDisabilityRating(List<double> disabilityRatings)
+        {
+            if (disabilityRatings.Count == 0)
+            {
+                return 0;
+            }
+
+            disabilityRatings.Sort((a, b) => b.CompareTo(a));
+
+            double combinedRating = 100;
+
+            foreach (double rating in disabilityRatings)
+            {
+                combinedRating *= 1 - (rating / 100);
+            }
+
+            combinedRating = 100 - combinedRating;
+            combinedRating = Math.Round(combinedRating / 10) * 10;
+
+            return combinedRating;
+        }
 
         //Calculation for overall compensation. Pulls from VACompensationRate.cs dictionary then adds appropriate compensation for any additional children.
         private double CalculateCompensation(int disabilityPercentage, int numChildrenUnder18, int numChildrenOver18InSchool) //VA allows different amounts depending on age.
@@ -90,19 +114,14 @@ namespace VADisabilityCalculator
                     {
                         compensationAmount += rateValue;
                     }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Failed to parse rate value: {rateValueStr}");
-                        System.Diagnostics.Debug.WriteLine($"No rate found for given parameters. Marital status: {isMarried}, Parents: {parents}, Children: {numChildrenUnder18},{numChildrenOver18InSchool}");
-                        System.Diagnostics.Debug.WriteLine($"No rates found for given disability percentage: {roundedCombinedRating}");
-                    }
+                    
                 }
             }
 
             // Calculate the child bonus separately if there are more than one child
             double childBonus = 0;
 
-            // Only calculate child bonus if the disability percentage is =>30
+            // Only calculate child bonus if the disability percentage is =>30 because that's all the VA recognizes as of May 2023
             if (roundedCombinedRating == 30)
             {
                 // Calculate bonus for children under 18
@@ -117,7 +136,7 @@ namespace VADisabilityCalculator
                     childBonus += (numChildrenOver18InSchool - 1) * 97;
                 }
 
-                // Add an extra $97 if there is at least one child in each category, but not for the first child
+                // Add an extra $97 if there is at least one child in each category, but not for the first child. Under 18 will be counted first for the table, then over18 in school because compensation is higher
                 if (numChildrenUnder18 > 0 && numChildrenOver18InSchool > 0)
                 {
                     childBonus += 97;
@@ -275,7 +294,20 @@ namespace VADisabilityCalculator
             double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
             CompensationLabel.Text = $"$ {compensationAmount}";
         }
+               
+        //Calculates overall disability rating and associated compensation
+        private void OnSelectionChanged(object sender, EventArgs e)
+        {
+            double combinedRating = CalculateCombinedDisabilityRating(disabilityRatings);
+            CombinedRatingLabel.Text = $"The overall combined disability rating is: {combinedRating}%";
 
+            int numChildrenUnder18 = ChildrenPicker.SelectedItem != null ? (int)ChildrenPicker.SelectedItem : 0;
+            int numChildrenOver18InSchool = ChildrenPicker18.SelectedItem != null ? (int)ChildrenPicker18.SelectedItem : 0;
+
+            double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
+            CompensationLabel.Text = $"$ {compensationAmount}";
+        }
+        // Everything is reset/cleared when the "CLEAR" button is pressed
         private void OnClearClicked(object sender, EventArgs e)
         {
             disabilityRatings.Clear();
@@ -289,44 +321,7 @@ namespace VADisabilityCalculator
 
         }
 
-        private void OnSelectionChanged(object sender, EventArgs e)
-        {
-            double combinedRating = CalculateCombinedDisabilityRating(disabilityRatings);
-            CombinedRatingLabel.Text = $"The overall combined disability rating is: {combinedRating}%";
 
-            int numChildrenUnder18 = ChildrenPicker.SelectedItem != null ? (int)ChildrenPicker.SelectedItem : 0;
-            int numChildrenOver18InSchool = ChildrenPicker18.SelectedItem != null ? (int)ChildrenPicker18.SelectedItem : 0;
-
-            double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
-            CompensationLabel.Text = $"$ {compensationAmount}";
-        }
-
-        private void UpdateEnteredRatingsLabel()
-        {
-            EnteredRatingsLabel.Text = "You have selected: " + string.Join(", ", disabilityRatings);
-        }
-
-        private double CalculateCombinedDisabilityRating(List<double> disabilityRatings)
-        {
-            if (disabilityRatings.Count == 0)
-            {
-                return 0;
-            }
-
-            disabilityRatings.Sort((a, b) => b.CompareTo(a));
-
-            double combinedRating = 100;
-
-            foreach (double rating in disabilityRatings)
-            {
-                combinedRating *= 1 - (rating / 100);
-            }
-
-            combinedRating = 100 - combinedRating;
-            combinedRating = Math.Round(combinedRating / 10) * 10;
-
-            return combinedRating;
-        }
 
     }
 }
