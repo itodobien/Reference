@@ -75,7 +75,7 @@ namespace VADisabilityCalculator
         {
             double compensationAmount = 0;
             int roundedCombinedRating = (int)Math.Round((double)disabilityPercentage);
-            bool isMarried = MarriedSwitch.IsToggled;
+            // Get the current state of the switch
             int parents = ParentsPicker.SelectedIndex != -1 ? ParentsPicker.SelectedIndex : 0;
 
             var rates = VACompensationRateParser.GetParsedRates(); // dictionary of rates from VACompensationRate.cs
