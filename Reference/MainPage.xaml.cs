@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
+using Syncfusion.XForms.Buttons;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.CommunityToolkit;
 using Xamarin.Essentials;
@@ -26,17 +27,34 @@ namespace VADisabilityCalculator
             ParentsPicker.ItemsSource = new List<int> { 0, 1, 2 };
             ChildrenPicker.ItemsSource = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             ChildrenPicker18.ItemsSource = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            MarriedSwitch.StateChanged += OnMarriedSwitchStateChanged;
         }
 
-        
 
+        private void OnMarriedSwitchStateChanged(object sender, Syncfusion.XForms.Buttons.SwitchStateChangedEventArgs e)
+        {
+            UpdateCompensationAmount();
+        }
+        private void UpdateCompensationAmount()
+        {
+            double combinedRating = CalculateCombinedDisabilityRating(disabilityRatings);
+            int numChildrenUnder18 = ChildrenPicker.SelectedItem != null ? (int)ChildrenPicker.SelectedItem : 0;
+            int numChildrenOver18InSchool = ChildrenPicker18.SelectedItem != null ? (int)ChildrenPicker18.SelectedItem : 0;
 
+            double compensationAmount = CalculateCompensation((int)combinedRating, numChildrenUnder18, numChildrenOver18InSchool);
+            CompensationLabel.Text = $"$ {compensationAmount}";
+        }
         private void OnMarriedToggled(object sender, ToggledEventArgs e)
         {
             OnSelectionChanged(sender, e);
         }
 
-        private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
+        private void SfSwitch_StateChanged(object sender, Syncfusion.XForms.Buttons.SwitchStateChangedEventArgs e)
+        {
+            OnSelectionChanged(sender, e);
+        }
+
+            private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
         {
             OnSelectionChanged(sender, e);
         }
@@ -71,11 +89,12 @@ namespace VADisabilityCalculator
         }
 
         //Calculation for overall compensation. Pulls from VACompensationRate.cs dictionary then adds appropriate compensation for any additional children.
-        private double CalculateCompensation(int disabilityPercentage, int numChildrenUnder18, int numChildrenOver18InSchool) //VA allows different amounts depending on age.
+        private double CalculateCompensation(int disabilityPercentage, int numChildrenUnder18, int numChildrenOver18InSchool)
         {
             double compensationAmount = 0;
             int roundedCombinedRating = (int)Math.Round((double)disabilityPercentage);
-            // Get the current state of the switch
+            bool? isMarriedNullable = MarriedSwitch.IsOn;
+            bool isMarried = isMarriedNullable ?? false;
             int parents = ParentsPicker.SelectedIndex != -1 ? ParentsPicker.SelectedIndex : 0;
 
             var rates = VACompensationRateParser.GetParsedRates(); // dictionary of rates from VACompensationRate.cs
@@ -282,7 +301,7 @@ namespace VADisabilityCalculator
             UpdateEnteredRatingsLabel();
             CombinedRatingLabel.Text = "";
             CompensationLabel.Text = "";
-            MarriedSwitch.IsToggled = false;
+          //MarriedSwitch.IsToggled = false;
             ChildrenPicker.SelectedItem = null;
             ChildrenPicker18.SelectedItem = null;
             ParentsPicker.SelectedItem = null;

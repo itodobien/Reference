@@ -9,6 +9,10 @@ namespace VADisabilityCalculator
     {
         public App()
         {
+            
+            //Register Syncfusion license
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjI5NTgzMkAzMjMxMmUzMTJlMzMzNU8wTENuZjQvRHlJUEVrM3IzQVllTHJNTkRKU2NQK1orM1BDT1A2VVdHUmc9");                
+            
             InitializeComponent();
 
             MainPage = new MainPage();
